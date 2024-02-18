@@ -8,7 +8,7 @@
             "email":"sasha.broslavskiy@gmail.com"
         }
     ],
-    "homepage": "https://web3horizen.com",
+    "homepage": "https://github.com/zbzalex/anrd",
     "license": "MIT",
     "keywords": [
         "php",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "anrd\\": "src/anrd"
         }
     },
     "autoload-dev": {
