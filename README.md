@@ -32,7 +32,7 @@ class Model
 ```
 
 ```
-$annotationReader = new \phpenhance\Annotations\AnnotationReader(\Tests\Model::class);
+$annotationReader = new \anrd\AnnotationReader(\Tests\Model::class);
 $annotationReader->parse();
 
 $annotations = $annotationReader->getAnnotations();
