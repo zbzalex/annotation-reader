@@ -99,12 +99,15 @@ class AnnotationReader
 
     do {
       $len = $cursor - $start;
-      $value = $cursor == strlen($raw) ? null : substr($raw, $cursor, 1);
+      $value = $cursor == strlen($raw)
+        ? null
+        : substr($raw, $cursor, 1);
 
       if ($value == null) {
         if ($len > 0) {
           $this->pushToken($raw, $start, $len);
         }
+
         break;
       }
 
@@ -113,10 +116,15 @@ class AnnotationReader
           $this->pushToken($raw, $start, $len);
         }
 
-        $nextChar = $cursor + 1 == strlen($raw) - 1 ? null : substr($raw, $cursor + 1, 1);
-        if ($this->isDelimiter($value) || $this->isDelimiter($nextChar)) {
+        $nextChar = $cursor + 1 == strlen($raw) - 1
+          ? null
+          : substr($raw, $cursor + 1, 1);
+
+        if ($this->isDelimiter($value)) {
           $this->pushToken($raw, $cursor + 0, 1);
-          // $this->pushToken($raw, $cursor + 1, 1);
+        } else         if ($this->isDelimiter($nextChar)) {
+          $this->pushToken($raw, $cursor + 1, 1);
+          $cursor++;
         } else {
           $this->pushToken($raw, $cursor + 0, 1);
         }
@@ -142,50 +150,51 @@ class AnnotationReader
 
   private function pushToken($raw, $start, $len)
   {
-    if (preg_match("/^[a-z]+/i", substr($raw, $start, $len))) {
+    $value = substr($raw, $start, $len);
+    if ($value[0] == "\\" || preg_match("/^[0-9a-z_]+/i", $value)) {
       $this->tokens[] = [
         "id",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == "\"") {
       $this->tokens[] = [
         "const_string",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == "(") {
       $this->tokens[] = [
         "op_parentheses",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == ")") {
       $this->tokens[] = [
         "cl_parentheses",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == "=") {
       $this->tokens[] = [
         "assign",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == "@") {
       $this->tokens[] = [
         "start_annotation",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == ",") {
       $this->tokens[] = [
         "comma",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == "[") {
       $this->tokens[] = [
         "op_brackets",
-        substr($raw, $start, $len)
+        $value
       ];
     } else if (substr($raw, $start, 1) == "]") {
       $this->tokens[] = [
         "cl_brackets",
-        substr($raw, $start, $len)
+        $value
       ];
     }
   }

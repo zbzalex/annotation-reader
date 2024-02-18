@@ -3,7 +3,7 @@
 namespace Tests;
 
 /**
- * @Hill\Controller()
+ * @\Hill\Controller()
  * @Dao
  * @Entity
  * @InlineAnnotation("hello")
