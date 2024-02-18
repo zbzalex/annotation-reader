@@ -12,6 +12,8 @@ class ApplicationTest extends TestCase
     $reader = new AnnotationReader(\Tests\Model::class);
     $reader->parse();
 
-    var_dump($reader->getAnnotations());
+    $annotations = $reader->getAnnotations();
+
+    var_dump($annotations);
   }
 }

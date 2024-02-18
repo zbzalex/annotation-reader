@@ -299,12 +299,12 @@ class AnnotationReader
                 continue;
               }
             } while ($this->tokens[$i][0] !== "cl_parentheses");
-          }
 
-          $this->annotations[] = new Annotation(
-            $name,
-            $params
-          );
+            $this->annotations[] = new Annotation(
+              $name,
+              $params
+            );
+          }
         }
       }
     } while ($i++ < count($this->tokens) - 1);
